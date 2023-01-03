@@ -9,13 +9,13 @@ function gitInstallCheck() {
   };
 }
 
-# function replaceConfig() {
-#   rsync --exclude ".git/" \
-#     --exclude "images/" \
-#     --exclude "README.md" \
-#     --exclude "LICENSE" \
-#     -avh --no-perms . ~;
-# }
+function replaceConfig() {
+  rsync --exclude ".git/" \
+    --exclude "images/" \
+    --exclude "README.md" \
+    --exclude "LICENSE" \
+    -avh --no-perms . ~;
+}
 
 function setupNvim() {
   echo "Now setting up Neovim..."
