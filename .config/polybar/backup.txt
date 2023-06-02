@@ -1,0 +1,56 @@
+
+[module/google]
+type = custom/text
+content = 
+content-padding = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.google.com/ &
+
+[module/amazon]
+type = custom/text
+content = 
+content-padding = 1
+content-margin = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.amazon.co.jp/ &
+;click-left = xdg-open https://www.amazon.com/
+
+[module/github]
+type = custom/text
+content = 
+content-padding = 1
+;content-margin = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.github.com/ &
+
+[module/reddit]
+type = custom/text
+content = 
+content-padding = 1
+content-margin = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.reddit.com/ &
+
+[module/facebook]
+type = custom/text
+content = 
+content-padding = 1
+;content-margin = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.facebook.com/ &
+
+[module/youtube]
+type = custom/text
+content = 
+;content = 
+content-padding = 1
+content-margin = 1
+content-foreground = ${colors.fg}
+content-underline = ${colors.adapta-cyan}
+click-left = xdg-open https://www.youtube.com/ &
+;==========================================================
