@@ -55,6 +55,7 @@ lazy.setup({
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
   "williamboman/mason-lspconfig.nvim",
 
+  -- Null-ls and Mason-null-ls
   {
     "jay-babu/mason-null-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },

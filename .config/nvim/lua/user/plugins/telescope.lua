@@ -1,7 +1,7 @@
 local status_ok, telescope = pcall(require, "telescope")
 
 if not status_ok then
-  return
+	return
 end
 
 local actions = require("telescope.actions")
@@ -14,27 +14,26 @@ local project_actions = require("telescope._extensions.project.actions")
 -- Extensions
 
 telescope.setup({
-  defaults = {
-    mappings = {
-      n = {
-        ["q"] = actions.close,
-      },
-    },
-  },
-  extensions = {
-    project = {
-      display_type = "full",
-      base_dirs = {
-        "~/dev/cheeka/",
-        "~/dev/byte/",
-      },
-      hidden_files = false,
-      theme = "dropdown",
-      search_by = "title",
-    },
-  },
+	defaults = {
+		mappings = {
+			n = {
+				["q"] = actions.close,
+			},
+		},
+	},
+	extensions = {
+		project = {
+			display_type = "full",
+			base_dirs = {
+				"~/dev/cheeka/",
+			},
+			hidden_files = false,
+			theme = "dropdown",
+			search_by = "title",
+		},
+	},
 
-  extensions_list = { "themes", "terms" },
+	extensions_list = { "themes", "terms" },
 })
 
 telescope.load_extension("project")
@@ -44,10 +43,10 @@ local map = vim.api.nvim_set_keymap
 local opts = { silent = true }
 
 map(
-  "n",
-  "<leader>ff",
-  '<cmd>lua require("telescope.builtin").find_files({ no_ignore = false, hidden = true })<cr>',
-  opts
+	"n",
+	"<leader>ff",
+	'<cmd>lua require("telescope.builtin").find_files({ no_ignore = false, hidden = true })<cr>',
+	opts
 )
 map("n", "<leader>lg", '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
 map("n", "<leader>b", '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)

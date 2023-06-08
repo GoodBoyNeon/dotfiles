@@ -21,4 +21,10 @@ mason_lsp.setup({
   },
 })
 
-mason_null_ls.setup()
+mason_null_ls.setup({
+  ensure_installed = {
+    "prettier",
+    "stylua",
+    "eslint_d",
+  }
+})
