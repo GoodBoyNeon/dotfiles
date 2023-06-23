@@ -4,13 +4,15 @@ local opts = { silent = true }
 
 vim.g.mapleader = " "
 
+map({ "n", "v" }, "<Space>", "<Nop>", opts)
+
 -- BUFFERLINE --
-map("n", "J", "<CMD>BufferLineCyclePrev<CR>")
-map("n", "K", "<CMD>BufferLineCycleNext<CR>")
+map("n", "J", "<CMD>BufferLineCyclePrev<CR>", opts)
+map("n", "K", "<CMD>BufferLineCycleNext<CR>", opts)
 map("n", "X", "<CMD>Bdelete<CR>", opts)
 
 -- NORMAL MODE --
-map("n", ";", ":")
+map("n", ";", ":", opts)
 
 map("n", "x", '"_x')
 
@@ -20,7 +22,7 @@ map("n", "-", "<C-x>")
 map("n", "dw", 'vb"_d')
 
 map("n", "<C-a>", "gg<S-v>G")
-map("n", "<leader>e", ":Neotree toggle right<CR>")
+map("n", "<leader>e", "<CMD>Neotree toggle right<CR>", opts)
 
 map("n", "m", ":vim.lsp.buf.hover")
 
@@ -28,9 +30,9 @@ map("n", "tt", "<CMD>lua require('nvterm.terminal').toggle 'float'<CR>")
 map("n", "<leader>hh", "<CMD>nohl<CR>")
 
 -- window management
-map("n", "te", ":tabedit<Return>", { silent = true })
-map("n", "ss", ":split<Return><C-w>w")
-map("n", "sv", ":vsplit<Return><C-w>w")
+map("n", "te", ":tabedit<Return>", opts)
+map("n", "ss", ":split<Return><C-w>w", opts)
+map("n", "sv", ":vsplit<Return><C-w>w", opts)
 
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")

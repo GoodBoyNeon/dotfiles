@@ -43,6 +43,13 @@ local on_attach = function(client, bufnr)
 
 		client.resolved_capabilities.document_formatting = false -- Turn off tsserver formatting in favor of null-ls
 	end
+
+	if client.name == "eslint" then
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "EslintFixAll",
+		})
+	end
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -69,40 +76,11 @@ lspconfig["lua_ls"].setup({
 	},
 })
 
--- lspconfig["tsserver"].setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
--- cmd = { "typescript-language-server", "--stdio" },
--- })
-
 typescript.setup({
 	server = {
 		capabilities = capabilities,
 		on_attach = on_attach,
 		cmd = { "typescript-language-server", "--stdio" },
-	},
-})
-
-lspconfig["cssls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["tailwindcss"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["jsonls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-
-	settings = {
-		json = {
-			schemas = schemastore.json.schemas(),
-			validate = { enable = true },
-		},
 	},
 })
 
@@ -122,7 +100,64 @@ lspconfig["yamlls"].setup({
 	},
 })
 
+lspconfig["jsonls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+
+	settings = {
+		json = {
+			schemas = schemastore.json.schemas(),
+			validate = { enable = true },
+		},
+	},
+})
+
+lspconfig["cssls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["tailwindcss"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
 lspconfig["astro"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["html"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["eslint"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["prismals"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["ltex"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["marksman"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["graphql"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["bashls"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })

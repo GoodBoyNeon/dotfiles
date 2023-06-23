@@ -37,7 +37,7 @@ telescope.setup({
 })
 
 telescope.load_extension("project")
--- telescope.load_extension("themes")
+telescope.load_extension("harpoon")
 
 local map = vim.api.nvim_set_keymap
 local opts = { silent = true }
@@ -53,3 +53,4 @@ map("n", "<leader>b", '<cmd>lua require("telescope.builtin").buffers()<cr>', opt
 map("n", "<leader>ht", '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
 map("n", "<leader>rr", '<cmd>lua require("telescope.builtin").resume()<cr>', opts)
 map("n", "<leader>wd", '<cmd>lua require("telescope.builtin").diagnostics()<cr>', opts)
+map("n", "<leader>sm", "<CMD>Telescope harpoon marks<CR>", opts)

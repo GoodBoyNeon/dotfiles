@@ -4,21 +4,6 @@ if not status_ok then
 	return dfdasrs
 end
 
--- Default
--- local colors = {
--- 	bg = "#202328",
--- 	fg = "#bbc2cf",
--- 	yellow = "#ECBE7B",
--- 	cyan = "#008080",
--- 	darkblue = "#081633",
--- 	green = "#98be65",
--- 	orange = "#FF8800",
--- 	violet = "#a9a1e1",
--- 	magenta = "#c678dd",
--- 	blue = "#51afef",
--- 	red = "#ec5f67",
--- }
-
 -- Tokyonight (storm, default)
 local colors = {
 	bg = "#1a1b26",
@@ -33,6 +18,21 @@ local colors = {
 	blue = "#2ac3de",
 	red = "#f7768e",
 }
+
+-- Gruvbox (dark)
+-- local colors = {
+-- 	bg = "#1d2021",
+-- 	fg = "#a89984",
+-- 	yellow = "#fabd2f",
+-- 	cyan = "#83a598",
+-- 	darkblue = "#458588",
+-- 	green = "#b8bb26",
+-- 	orange = "#fe8019",
+-- 	violet = "#b16286",
+-- 	magenta = "#d3869b",
+-- 	blue = "#458588",
+-- 	red = "#fb4934",
+-- }
 
 local conditions = {
 	buffer_not_empty = function()

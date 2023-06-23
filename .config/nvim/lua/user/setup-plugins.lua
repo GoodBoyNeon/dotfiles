@@ -1,158 +1,162 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
 local status_ok, lazy = pcall(require, "lazy")
 
 if not status_ok then
-  print("Lazy is not installed!")
-  return
+	print("Lazy is not installed!")
+	return
 end
 
 lazy.setup({
-  -- Color Schemes
-  "folke/tokyonight.nvim",
-  "navarasu/onedark.nvim",
-  "rebelot/kanagawa.nvim",
+	-- Color Schemes
+	"folke/tokyonight.nvim",
+	"navarasu/onedark.nvim",
+	"rebelot/kanagawa.nvim",
+	{ "ellisonleao/gruvbox.nvim", priority = 1000 },
 
-  "andweeb/presence.nvim",
-  "windwp/nvim-autopairs",
-  "lukas-reineke/indent-blankline.nvim",
+	"andweeb/presence.nvim",
+	"windwp/nvim-autopairs",
+	"lukas-reineke/indent-blankline.nvim",
 
-  -- Lualine: Statusline
-  "hoob3rt/lualine.nvim",
+	-- Lualine: Statusline
+	"hoob3rt/lualine.nvim",
 
-  -- Bufferline
-  { "akinsho/bufferline.nvim", version = "*",         dependencies = "nvim-tree/nvim-web-devicons" },
-  "famiu/bufdelete.nvim",
+	-- Bufferline
+	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+	"famiu/bufdelete.nvim",
 
-  -- Git integration
-  "tpope/vim-fugitive",
-  "lewis6991/gitsigns.nvim",
+	-- Haropoon: Modern alternative to vim marks
+	"ThePrimeagen/harpoon",
 
-  -- cmp
-  "hrsh7th/nvim-cmp",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-cmdline",
-  -- snippets
-  "L3MON4D3/LuaSnip",
-  "saadparwaiz1/cmp_luasnip",
-  "rafamadriz/friendly-snippets",
-  "numToStr/Comment.nvim",
+	-- Git integration
+	"tpope/vim-fugitive",
+	"lewis6991/gitsigns.nvim",
 
-  -- Mason: Installing LSP servers
-  { "williamboman/mason.nvim", build = ":MasonUpdate" },
-  "williamboman/mason-lspconfig.nvim",
+	-- cmp
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	-- snippets
+	"L3MON4D3/LuaSnip",
+	"saadparwaiz1/cmp_luasnip",
+	"rafamadriz/friendly-snippets",
+	"numToStr/Comment.nvim",
 
-  -- Null-ls and Mason-null-ls
-  {
-    "jay-babu/mason-null-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
-    },
-  },
+	-- Mason: Installing LSP servers
+	{ "williamboman/mason.nvim", build = ":MasonUpdate" },
+	"williamboman/mason-lspconfig.nvim",
 
-  -- LSP: Language Server Protocol
-  "neovim/nvim-lspconfig",
-  "onsails/lspkind-nvim",
-  "jose-elias-alvarez/typescript.nvim", -- Typescript
+	-- Null-ls and Mason-null-ls
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"jose-elias-alvarez/null-ls.nvim",
+		},
+	},
 
-  "glepnir/lspsaga.nvim",
-  event = "LspAttach",
-  config = function()
-    require("lspsaga").setup({})
-  end,
-  dependencies = {
-    { "nvim-tree/nvim-web-devicons" },
-    { "nvim-treesitter/nvim-treesitter" },
-  },
+	-- LSP: Language Server Protocol
+	"neovim/nvim-lspconfig",
+	"onsails/lspkind-nvim",
+	"jose-elias-alvarez/typescript.nvim", -- Typescript
 
-  -- SchemaStore (JSON and YAML)
-  "b0o/schemastore.nvim",
+	"glepnir/lspsaga.nvim",
+	event = "LspAttach",
+	config = function()
+		require("lspsaga").setup({})
+	end,
+	dependencies = {
+		{ "nvim-tree/nvim-web-devicons" },
+		{ "nvim-treesitter/nvim-treesitter" },
+	},
 
-  'jose-elias-alvarez/null-ls.nvim',
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
+	-- SchemaStore (JSON and YAML)
+	"b0o/schemastore.nvim",
 
-  -- nvim surround
-  {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-  },
-  -- Neodev: docs and completion for nvim lua API
-  "folke/neodev.nvim",
+	"jose-elias-alvarez/null-ls.nvim",
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 
-  -- Neo-tree (file tree viewer)
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-  },
+	-- nvim surround
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+	},
+	-- Neodev: docs and completion for nvim lua API
+	"folke/neodev.nvim",
 
-  -- Fuzzy finder (Telescope)
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-  },
-  -- Telescope projects
-  "nvim-telescope/telescope-project.nvim",
+	-- Neo-tree (file tree viewer)
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"MunifTanjim/nui.nvim",
+		},
+	},
 
-  -- Colorizer: Preview color and hex codes
-  "NvChad/nvim-colorizer.lua",
+	-- Fuzzy finder (Telescope)
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	-- Telescope projects
+	"nvim-telescope/telescope-project.nvim",
 
-  -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      "windwp/nvim-ts-autotag",
-    },
-  },
+	-- Colorizer: Preview color and hex codes
+	"NvChad/nvim-colorizer.lua",
 
-  -- nvim-notify: Notification Manager
-  "rcarriga/nvim-notify",
+	-- Treesitter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+			"windwp/nvim-ts-autotag",
+		},
+	},
 
-  -- noice.nvim
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    },
-  },
+	-- nvim-notify: Notification Manager
+	"rcarriga/nvim-notify",
 
-  -- Start Screen
-  "goolord/alpha-nvim",
+	-- noice.nvim
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	},
 
-  -- Markdown preview
-  { "toppair/peek.nvim", build = "deno task --quiet build:fast" },
+	-- Start Screen
+	"goolord/alpha-nvim",
 
-  {
-    "NvChad/nvterm",
-  },
+	-- Markdown preview
+	{ "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
+
+	{
+		"NvChad/nvterm",
+	},
 })

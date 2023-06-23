@@ -7,15 +7,15 @@ set fish_greeting
 fish_vi_key_bindings
 
 # Aliases
-# alias ls "exa -l -a --icons --color always -x -F"
 alias ls "exa -la --icons --color always"
-# alias ll "exa -la --icons --color always"
 alias lt "exa --tree --level=2 --long --icons --git"
 alias logout "pkill -u neon"
 alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME/'
+alias code 'code --disable-gpu'
 
 alias q 'exit'
 alias :q 'exit'
+alias g 'git'
 
 # Environment variables
 set -gx EDITOR "/usr/bin/nvim"

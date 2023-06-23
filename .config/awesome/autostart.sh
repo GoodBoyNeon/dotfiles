@@ -9,9 +9,8 @@ run() {
 # lxsession
 run lxsession
 
-
 # Compositor
-run picom --animations --backend glx --animation-for-open-window fly-in -b
+# run picom --animations --backend glx --animation-for-open-window fly-in -b
 
 # Wallpaper engine
 run nitrogen --restore
@@ -28,7 +27,3 @@ run xmodmap ~/.Xmodmap
 # Polybar
 run ~/.config/polybar/launch.sh
 
-# # Audio
-# /usr/bin/pipewire &
-# /usr/bin/pipewire-pulse &
-# /usr/bin/pipewire-media-session &

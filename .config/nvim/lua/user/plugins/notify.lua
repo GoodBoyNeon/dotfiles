@@ -4,6 +4,8 @@ if not status_ok then
 	return
 end
 
-notify.setup({})
+notify.setup({
+	top_down = false,
+})
 
 vim.notify = notify
