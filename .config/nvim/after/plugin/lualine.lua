@@ -1,7 +1,7 @@
 local status_ok, lualine = pcall(require, "lualine")
 
 if not status_ok then
-	return dfdasrs
+	return
 end
 
 -- Tokyonight (storm, default)
@@ -50,6 +50,7 @@ local conditions = {
 
 -- Config
 local config = {
+	icons_enabled = true,
 	options = {
 		-- Disable sections and component separators
 		component_separators = "",
@@ -214,7 +215,6 @@ ins_right({
 
 ins_right({
 	"diff",
-	-- Is it me or the symbol for modified us really weird
 	symbols = { added = " ", modified = "󰝤 ", removed = " " },
 	diff_color = {
 		added = { fg = colors.green },
@@ -232,5 +232,4 @@ ins_right({
 	padding = { left = 1 },
 })
 
--- Now don't forget to initialize lualine
 lualine.setup(config)

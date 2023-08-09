@@ -16,30 +16,49 @@ end
 -- Neodev setup (perform before lspconfig setup)
 neodev.setup({})
 
-local map = vim.keymap.set
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
 local on_attach = function(client, bufnr)
-	-- keymaps
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
-	map("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-	map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- got to declaration
-	map("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-	map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
-	map("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
-	map("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-	map("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
-	map("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
-	map("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
-	map("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-	map("n", "m", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-	map("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
+	local map = function(key, func)
+		vim.keymap.set("n", key, func, opts)
+	end
+	-- keymaps
+
+	-- map("<leader>c", "<cmd>Lspsaga code_action<CR>") -- see available code actions
+	map("<leader>c", vim.lsp.buf.code_action) -- see available code actions
+
+	-- map("<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
+	map("<leader>rn", vim.lsp.buf.rename)
+
+	-- map("gd", "<cmd>Lspsaga peek_definition<CR>") -- see definition and make edits in window
+	map("gd", vim.lsp.buf.definition) -- see definition and make edits in window
+
+	-- map("gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>") -- got to declaration
+	map("gD", vim.lsp.buf.declaration) -- got to declaration
+
+	-- map("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>") -- go to implementation
+	map("gi", vim.lsp.buf.implementation) -- go to implementation
+
+	map("M", vim.lsp.buf.type_definition)
+
+	-- map("m", "<cmd>Lspsaga hover_doc<CR>") -- show documentation for what is under cursor
+	map("m", vim.lsp.buf.hover)
+
+	map("gf", "<cmd>Lspsaga lsp_finder<CR>") -- show definition, references
+	map("<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>") -- show  diagnostics for line
+	map("<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>") -- show diagnostics for cursor
+	map("[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>") -- jump to previous diagnostic in buffer
+	map("]d", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
+	map("<leader>o", "<cmd>LSoutlineToggle<CR>") -- see outline on right hand side
+
+	map("gr", require("telescope.builtin").lsp_references)
+	map("<leader>s", require("telescope.builtin").lsp_document_symbols)
+	map("<leader>S", require("telescope.builtin").lsp_dynamic_workspace_symbols)
 
 	if client.name == "tsserver" then
-		map("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-		map("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports
-		map("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables
+		map("<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
+		map("<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports
+		map("<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables
 
 		client.resolved_capabilities.document_formatting = false -- Turn off tsserver formatting in favor of null-ls
 	end
@@ -52,7 +71,8 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
@@ -161,3 +181,11 @@ lspconfig["bashls"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
+-- require("mason-lspconfig").setup_handlers({
+-- 	function(server_name)
+-- 		lspconfig[server_name].setup({
+-- 			capabilities = capabilities,
+-- 			on_attach = on_attach,
+-- 		})
+-- 	end,
+-- })

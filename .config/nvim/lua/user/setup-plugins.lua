@@ -20,14 +20,47 @@ end
 
 lazy.setup({
 	-- Color Schemes
-	"folke/tokyonight.nvim",
-	"navarasu/onedark.nvim",
-	"rebelot/kanagawa.nvim",
-	{ "ellisonleao/gruvbox.nvim", priority = 1000 },
+	{
+		"folke/tokyonight.nvim",
+		priority = 1000,
+		config = function()
+			vim.cmd("colorscheme tokyonight")
+		end,
+	},
+	{
+		"navarasu/onedark.nvim",
+	},
+	{
+		"rebelot/kanagawa.nvim",
+	},
+	{
+		"ellisonleao/gruvbox.nvim",
+	},
+	{ "rose-pine/neovim", name = "rose-pine" },
 
 	"andweeb/presence.nvim",
-	"windwp/nvim-autopairs",
-	"lukas-reineke/indent-blankline.nvim",
+	{
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({
+
+				check_ts = true,
+				disable_filetype = { "TelescopePrompt", "vim" },
+			})
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("indent_blankline.init").setup({
+				show_trailing_blankline_indent = false,
+				use_treesitter = true,
+				char = "▏",
+				context_char = "▏",
+				show_current_context = true,
+			})
+		end,
+	},
 
 	-- Lualine: Statusline
 	"hoob3rt/lualine.nvim",
@@ -42,6 +75,12 @@ lazy.setup({
 	-- Git integration
 	"tpope/vim-fugitive",
 	"lewis6991/gitsigns.nvim",
+	{
+		"sindrets/diffview.nvim",
+		config = function()
+			require("diffview").setup()
+		end,
+	},
 
 	-- cmp
 	"hrsh7th/nvim-cmp",
@@ -53,7 +92,14 @@ lazy.setup({
 	"L3MON4D3/LuaSnip",
 	"saadparwaiz1/cmp_luasnip",
 	"rafamadriz/friendly-snippets",
-	"numToStr/Comment.nvim",
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	},
+
+	"christoomey/vim-tmux-navigator",
 
 	-- Mason: Installing LSP servers
 	{ "williamboman/mason.nvim", build = ":MasonUpdate" },
@@ -101,6 +147,15 @@ lazy.setup({
 	},
 	-- Neodev: docs and completion for nvim lua API
 	"folke/neodev.nvim",
+	-- Hypersnoic - Regexp explainer
+	{
+		"tomiis4/Hypersonic.nvim",
+		event = "CmdlineEnter",
+		cmd = "Hypersonic",
+		config = function()
+			require("hypersonic").setup({})
+		end,
+	},
 
 	-- Neo-tree (file tree viewer)
 	{
@@ -121,7 +176,12 @@ lazy.setup({
 	"nvim-telescope/telescope-project.nvim",
 
 	-- Colorizer: Preview color and hex codes
-	"NvChad/nvim-colorizer.lua",
+	{
+		"NvChad/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup({})
+		end,
+	},
 
 	-- Treesitter
 	{
@@ -141,11 +201,7 @@ lazy.setup({
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
 			"rcarriga/nvim-notify",
 		},
 	},

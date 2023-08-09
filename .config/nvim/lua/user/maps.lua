@@ -1,5 +1,4 @@
-local keymap = vim.keymap
-local map = keymap.set
+local map = vim.keymap.set
 local opts = { silent = true }
 
 vim.g.mapleader = " "
@@ -24,8 +23,6 @@ map("n", "dw", 'vb"_d')
 map("n", "<C-a>", "gg<S-v>G")
 map("n", "<leader>e", "<CMD>Neotree toggle right<CR>", opts)
 
-map("n", "m", ":vim.lsp.buf.hover")
-
 map("n", "tt", "<CMD>lua require('nvterm.terminal').toggle 'float'<CR>")
 map("n", "<leader>hh", "<CMD>nohl<CR>")
 
@@ -43,6 +40,30 @@ map("n", "<C-S-h>", "<C-w><")
 map("n", "<C-S-j>", "<C-w>-")
 map("n", "<C-S-k>", "<C-w>+")
 map("n", "<C-S-l>", "<C-w>>")
+
+-- TELESCOPE
+-- map("n", "<leader>ff", '<CMD>lua require("telescope.builtin").find_files({ hidden_files = true })<CR>', opts)
+-- map("n", "<leader>lg", '<CMD>lua require("telescope.builtin").live_grep()<CR>', opts)
+-- map("n", "<leader>b", '<CMD>lua require("telescope.builtin").buffers()<CR>', opts)
+-- map("n", "<leader>rr", '<CMD>lua require("telescope.builtin").resume()<CR>', opts)
+-- map("n", "<leader>wd", '<CMD>lua require("telescope.builtin").diagnostics()<CR>', opts)
+
+map("n", "<leader>ff", function()
+	require("telescope.builtin").find_files({ hidden_files = true })
+end, opts)
+map("n", "<leader>lg", function()
+	require("telescope.builtin").live_grep()
+end, opts)
+
+map("n", "<leader>b", function()
+	require("telescope.builtin").buffers()
+end, opts)
+map("n", "<leader>rr", function()
+	require("telescope.builtin").resume()
+end, opts)
+map("n", "<leader>wd", function()
+	require("telescope.builtin").diagnostics()
+end, opts)
 
 -- INSERT MODE --
 map("i", "jk", "<Esc>")
