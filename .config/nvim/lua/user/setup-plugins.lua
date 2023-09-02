@@ -31,12 +31,8 @@ lazy.setup({
 		"navarasu/onedark.nvim",
 	},
 	{
-		"rebelot/kanagawa.nvim",
-	},
-	{
 		"ellisonleao/gruvbox.nvim",
 	},
-	{ "rose-pine/neovim", name = "rose-pine" },
 
 	"andweeb/presence.nvim",
 	{
@@ -68,9 +64,6 @@ lazy.setup({
 	-- Bufferline
 	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
 	"famiu/bufdelete.nvim",
-
-	-- Haropoon: Modern alternative to vim marks
-	"ThePrimeagen/harpoon",
 
 	-- Git integration
 	"tpope/vim-fugitive",
@@ -144,6 +137,11 @@ lazy.setup({
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup(
+				-- Configuration here, or leave empty to use defaults
+			)
+		end,
 	},
 	-- Neodev: docs and completion for nvim lua API
 	"folke/neodev.nvim",
@@ -172,14 +170,14 @@ lazy.setup({
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	-- Telescope projects
-	"nvim-telescope/telescope-project.nvim",
 
 	-- Colorizer: Preview color and hex codes
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
-			require("colorizer").setup({})
+			require("colorizer").setup({
+				names = false,
+			})
 		end,
 	},
 
@@ -213,6 +211,23 @@ lazy.setup({
 	{ "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
 
 	{
-		"NvChad/nvterm",
+		"max397574/better-escape.nvim",
+		config = function()
+			require("better_escape").setup({
+				mapping = { "jk", "kj" }, -- a table with mappings to use
+				timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
+				clear_empty_lines = false, -- clear line after escaping if there is only whitespace
+				keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
+			})
+		end,
+	},
+	{ "akinsho/toggleterm.nvim", version = "*" },
+
+	-- Neovim plugin for splitting/joining blocks of code
+	{
+		"Wansmer/treesj",
+		keys = { "<C-s>" },
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = { use_default_keymaps = false },
 	},
 })

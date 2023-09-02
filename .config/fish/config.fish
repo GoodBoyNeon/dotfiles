@@ -36,7 +36,7 @@ function mkcd -d "Create a directory and set CWD"
   end
 end
 
-function wf
-  tmux
-  nvim $argv
+function pa -d "(A)ttach to a (P)roject (tmuxinator)"
+  command tmuxinator start $argv
 end
+

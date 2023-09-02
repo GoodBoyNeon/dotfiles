@@ -489,4 +489,4 @@ end)
 beautiful.init("~/.config/awesome/theme.lua")
 
 -- AUTOSTART --
-os.execute("sh ~/.config/awesome/autostart.sh")
+os.execute("sh /home/neon/.config/awesome/autostart.sh")

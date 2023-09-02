@@ -18,17 +18,5 @@ telescope.setup({
 			},
 		},
 	},
-	extensions = {
-		project = {
-			display_type = "full",
-			base_dirs = {
-				"~/dev/cheeka/",
-			},
-			hidden_files = false,
-			theme = "dropdown",
-			search_by = "title",
-		},
-	},
+	extensions = {},
 })
-
-telescope.load_extension("project")

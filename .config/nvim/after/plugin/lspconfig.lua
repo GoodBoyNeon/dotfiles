@@ -24,11 +24,11 @@ local on_attach = function(client, bufnr)
 	end
 	-- keymaps
 
-	-- map("<leader>c", "<cmd>Lspsaga code_action<CR>") -- see available code actions
-	map("<leader>c", vim.lsp.buf.code_action) -- see available code actions
+	map("<leader>c", "<cmd>Lspsaga code_action<CR>") -- see available code actions
+	-- map("<leader>c", vim.lsp.buf.code_action) -- see available code actions
 
-	-- map("<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
-	map("<leader>rn", vim.lsp.buf.rename)
+	map("<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
+	-- map("<leader>rn", vim.lsp.buf.rename)
 
 	-- map("gd", "<cmd>Lspsaga peek_definition<CR>") -- see definition and make edits in window
 	map("gd", vim.lsp.buf.definition) -- see definition and make edits in window
@@ -49,7 +49,7 @@ local on_attach = function(client, bufnr)
 	map("<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>") -- show diagnostics for cursor
 	map("[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>") -- jump to previous diagnostic in buffer
 	map("]d", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
-	map("<leader>o", "<cmd>LSoutlineToggle<CR>") -- see outline on right hand side
+	map("<leader>o", "<cmd>Lspsaga outline<CR>") -- see outline on right hand side
 
 	map("gr", require("telescope.builtin").lsp_references)
 	map("<leader>s", require("telescope.builtin").lsp_document_symbols)
@@ -60,7 +60,9 @@ local on_attach = function(client, bufnr)
 		map("<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports
 		map("<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables
 
-		client.resolved_capabilities.document_formatting = false -- Turn off tsserver formatting in favor of null-ls
+		if client.resolved_capabilities then
+			client.resolved_capabilities.document_formatting = false -- Turn off tsserver formatting in favor of null-ls
+		end
 	end
 
 	if client.name == "eslint" then
@@ -178,6 +180,10 @@ lspconfig["graphql"].setup({
 })
 
 lspconfig["bashls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+lspconfig["pylsp"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })

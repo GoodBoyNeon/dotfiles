@@ -31,10 +31,10 @@ map("n", "te", ":tabedit<Return>", opts)
 map("n", "ss", ":split<Return><C-w>w", opts)
 map("n", "sv", ":vsplit<Return><C-w>w", opts)
 
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-l>", "<C-w>l")
+-- map("n", "<C-h>", "<C-w>h")
+-- map("n", "<C-j>", "<C-w>j")
+-- map("n", "<C-k>", "<C-w>k")
+-- map("n", "<C-l>", "<C-w>l")
 
 map("n", "<C-S-h>", "<C-w><")
 map("n", "<C-S-j>", "<C-w>-")
@@ -68,3 +68,4 @@ end, opts)
 -- INSERT MODE --
 map("i", "jk", "<Esc>")
 map("i", "kj", "<Esc>")
+-- ^^ Replaced by better-escape.nvim plugin!
