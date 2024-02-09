@@ -1,17 +1,6 @@
-local status_ok, lspconfig = pcall(require, "lspconfig")
-local typescript_status_ok, typescript = pcall(require, "typescript")
-local neodev_status_ok, neodev = pcall(require, "neodev")
-local schemastore_status_ok, schemastore = pcall(require, "schemastore")
-
-if not status_ok then
-	return
-end
-if not typescript_status_ok then
-	return
-end
-if not neodev_status_ok then
-	return
-end
+local lspconfig = require("lspconfig")
+local neodev = require("neodev")
+local schemastore = require("schemastore")
 
 -- Neodev setup (perform before lspconfig setup)
 neodev.setup({})
@@ -56,13 +45,7 @@ local on_attach = function(client, bufnr)
 	map("<leader>S", require("telescope.builtin").lsp_dynamic_workspace_symbols)
 
 	if client.name == "tsserver" then
-		map("<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-		map("<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports
-		map("<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables
-
-		if client.resolved_capabilities then
-			client.resolved_capabilities.document_formatting = false -- Turn off tsserver formatting in favor of null-ls
-		end
+		map("<leader>oi", "<CMD>OrganizeImports<CR>")
 	end
 
 	if client.name == "eslint" then
@@ -74,7 +57,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
@@ -98,11 +81,28 @@ lspconfig["lua_ls"].setup({
 	},
 })
 
-typescript.setup({
-	server = {
-		capabilities = capabilities,
-		on_attach = on_attach,
-		cmd = { "typescript-language-server", "--stdio" },
+local function organize_imports()
+	local params = {
+		command = "_typescript.organizeImports",
+		arguments = { vim.api.nvim_buf_get_name(0) },
+	}
+	vim.lsp.buf.execute_command(params)
+end
+
+lspconfig["tsserver"].setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	cmd = { "typescript-language-server", "--stdio" },
+	init_options = {
+		preferences = {
+			disableSuggestions = false, -- change to true to disable suggestions like "File may be converted to ESM"
+		},
+	},
+	commands = {
+		OrganizeImports = {
+			organize_imports,
+			description = "Organize Imports",
+		},
 	},
 })
 
@@ -187,6 +187,12 @@ lspconfig["pylsp"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
+
+lspconfig["jdtls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
 -- require("mason-lspconfig").setup_handlers({
 -- 	function(server_name)
 -- 		lspconfig[server_name].setup({

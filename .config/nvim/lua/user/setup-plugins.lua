@@ -34,7 +34,6 @@ lazy.setup({
 		"ellisonleao/gruvbox.nvim",
 	},
 
-	"andweeb/presence.nvim",
 	{
 		"windwp/nvim-autopairs",
 		config = function()
@@ -45,17 +44,17 @@ lazy.setup({
 			})
 		end,
 	},
+	"windwp/nvim-ts-autotag",
+
+	{
+		"HiPhish/rainbow-delimiters.nvim",
+		config = function()
+			require("rainbow-delimiters.setup").setup({})
+		end,
+	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			require("indent_blankline.init").setup({
-				show_trailing_blankline_indent = false,
-				use_treesitter = true,
-				char = "▏",
-				context_char = "▏",
-				show_current_context = true,
-			})
-		end,
+		main = "ibl",
 	},
 
 	-- Lualine: Statusline
@@ -85,33 +84,39 @@ lazy.setup({
 	"L3MON4D3/LuaSnip",
 	"saadparwaiz1/cmp_luasnip",
 	"rafamadriz/friendly-snippets",
+
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
+	},
 	{
 		"numToStr/Comment.nvim",
 		config = function()
-			require("Comment").setup()
+			require("Comment").setup({
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			})
 		end,
+	},
+
+	-- Treesitter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+		config = function() end,
 	},
 
 	"christoomey/vim-tmux-navigator",
 
 	-- Mason: Installing LSP servers
 	{ "williamboman/mason.nvim", build = ":MasonUpdate" },
-	"williamboman/mason-lspconfig.nvim",
-
-	-- Null-ls and Mason-null-ls
-	{
-		"jay-babu/mason-null-ls.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"williamboman/mason.nvim",
-			"jose-elias-alvarez/null-ls.nvim",
-		},
-	},
+	{ "williamboman/mason-lspconfig.nvim" },
 
 	-- LSP: Language Server Protocol
 	"neovim/nvim-lspconfig",
 	"onsails/lspkind-nvim",
-	"jose-elias-alvarez/typescript.nvim", -- Typescript
 
 	"glepnir/lspsaga.nvim",
 	event = "LspAttach",
@@ -123,10 +128,23 @@ lazy.setup({
 		{ "nvim-treesitter/nvim-treesitter" },
 	},
 
+	-- Formatting
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		event = "VeryLazy",
+	},
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"jose-elias-alvarez/null-ls.nvim",
+		},
+	},
+
 	-- SchemaStore (JSON and YAML)
 	"b0o/schemastore.nvim",
 
-	"jose-elias-alvarez/null-ls.nvim",
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -176,19 +194,15 @@ lazy.setup({
 		"NvChad/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup({
-				names = false,
+				filetypes = { "*" },
+				user_default_options = {
+					names = false,
+					css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+					css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+					tailwind = true, -- Enable tailwind colors
+				},
 			})
 		end,
-	},
-
-	-- Treesitter
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		dependencies = {
-			"JoosepAlviste/nvim-ts-context-commentstring",
-			"windwp/nvim-ts-autotag",
-		},
 	},
 
 	-- nvim-notify: Notification Manager
@@ -229,5 +243,26 @@ lazy.setup({
 		keys = { "<C-s>" },
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		opts = { use_default_keymaps = false },
+	},
+	{
+		"aurum77/live-server.nvim",
+		cmd = { "LiveServer", "LiveServerStart", "LiveServerStop" },
+		init = function()
+			require("live_server.util").install()
+		end,
+	},
+	-- Java language server
+	{
+		"mfussenegger/nvim-jdtls",
+	},
+
+	{
+		"andweeb/presence.nvim",
+		config = function()
+			require("presence").setup({
+				enabled = false,
+				neovim_image_text = "Yes, I am a vim nerd", -- Text displayed when hovered over the Neovim image
+			})
+		end,
 	},
 })

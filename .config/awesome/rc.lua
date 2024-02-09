@@ -187,7 +187,7 @@ globalkeys = gears.table.join(
 		end
 	end, { description = "Open Discord", group = "launcher" }),
 
-	-- Discord
+	-- Spotify
 	awful.key({ modkey }, "s", function()
 		awful.spawn("jumpapp spotify --disable-gpu")
 		local screen = awful.screen.focused()
@@ -197,10 +197,27 @@ globalkeys = gears.table.join(
 		end
 	end, { description = "Open Spotify", group = "launcher" }),
 
-	-- program launcher (dmenu)
+	-- ROFI STUFF--
+
+	-- Rofi Run launcher
 	awful.key({ modkey }, "space", function()
-		awful.spawn("dmenu_run -fn 'JetBrainsMono Nerd Font'")
-	end, { description = "run dmenu", group = "launcher" }),
+		awful.spawn("rofi -show run")
+	end, { description = "Rofi (Command Launcher)", group = "launcher" }),
+
+	-- Rofi Emoji
+	awful.key({ modkey, "Shift" }, "e", function()
+		awful.spawn("rofi -show emoji -modi emoji")
+	end, { description = "Launch Rofi Emoji", group = "launcher" }),
+
+	-- Rofi calc
+	awful.key({ modkey, "Shift" }, "c", function()
+		awful.spawn("rofi -show calc -modi calc -no-show-match -no-sort")
+	end, { description = "Rofi Calculator (rofi-calc)", group = "launcher" }),
+
+	-- program launcher (dmenu)
+	-- awful.key({ modkey }, "space", function()
+	-- 	awful.spawn("dmenu_run -fn 'JetBrainsMono Nerd Font'")
+	-- end, { description = "run dmenu", group = "launcher" }),
 
 	awful.key({ modkey }, "u", function()
 		awful.spawn("alacritty -e yay -Syu --noconfirm")
@@ -486,7 +503,7 @@ client.connect_signal("manage", function(c)
 end)
 
 -- Launch theme
-beautiful.init("~/.config/awesome/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "theme.lua")
 
 -- AUTOSTART --
 os.execute("sh /home/neon/.config/awesome/autostart.sh")

@@ -40,3 +40,8 @@ function pa -d "(A)ttach to a (P)roject (tmuxinator)"
   command tmuxinator start $argv
 end
 
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+fish_add_path /home/neon/.spicetify

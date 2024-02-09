@@ -7,9 +7,12 @@ end
 local sources = {
 	null_ls.builtins.formatting.prettier,
 	null_ls.builtins.formatting.stylua,
+	null_ls.builtins.formatting.black,
+	null_ls.builtins.formatting.google_java_format,
 }
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 null_ls.setup({
 	sources = sources,
 

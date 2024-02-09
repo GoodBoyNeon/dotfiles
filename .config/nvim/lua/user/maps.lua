@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-local opts = { silent = true }
+local opts = { noremap = true, silent = true }
 
 vim.g.mapleader = " "
 
@@ -10,24 +10,27 @@ map("n", "J", "<CMD>BufferLineCyclePrev<CR>", opts)
 map("n", "K", "<CMD>BufferLineCycleNext<CR>", opts)
 map("n", "X", "<CMD>Bdelete<CR>", opts)
 
+map("n", "te", "<CMD>tabedit<CR>", opts) -- new tab
+map("n", "<Tab>", "<CMD>tabnext<CR>", opts)
+
 -- NORMAL MODE --
 map("n", ";", ":", opts)
 
-map("n", "x", '"_x')
+map("n", "x", '"_x') -- Delete char without yanking
+map("n", "dw", "vb_d") -- Delete word backwards
+map("n", "<C-a>", "gg<S-v>G") -- Select all
 
 map("n", "=", "<C-a>")
 map("n", "-", "<C-x>")
 
 map("n", "dw", 'vb"_d')
 
-map("n", "<C-a>", "gg<S-v>G")
 map("n", "<leader>e", "<CMD>Neotree toggle right<CR>", opts)
 
 map("n", "tt", "<CMD>lua require('nvterm.terminal').toggle 'float'<CR>")
 map("n", "<leader>hh", "<CMD>nohl<CR>")
 
--- window management
-map("n", "te", ":tabedit<Return>", opts)
+-- window
 map("n", "ss", ":split<Return><C-w>w", opts)
 map("n", "sv", ":vsplit<Return><C-w>w", opts)
 
@@ -36,17 +39,10 @@ map("n", "sv", ":vsplit<Return><C-w>w", opts)
 -- map("n", "<C-k>", "<C-w>k")
 -- map("n", "<C-l>", "<C-w>l")
 
-map("n", "<C-S-h>", "<C-w><")
-map("n", "<C-S-j>", "<C-w>-")
-map("n", "<C-S-k>", "<C-w>+")
-map("n", "<C-S-l>", "<C-w>>")
-
--- TELESCOPE
--- map("n", "<leader>ff", '<CMD>lua require("telescope.builtin").find_files({ hidden_files = true })<CR>', opts)
--- map("n", "<leader>lg", '<CMD>lua require("telescope.builtin").live_grep()<CR>', opts)
--- map("n", "<leader>b", '<CMD>lua require("telescope.builtin").buffers()<CR>', opts)
--- map("n", "<leader>rr", '<CMD>lua require("telescope.builtin").resume()<CR>', opts)
--- map("n", "<leader>wd", '<CMD>lua require("telescope.builtin").diagnostics()<CR>', opts)
+-- map("n", "<C-S-h>", "<C-w><")
+-- map("n", "<C-S-j>", "<C-w>-")
+-- map("n", "<C-S-k>", "<C-w>+")
+-- map("n", "<C-S-l>", "<C-w>>")
 
 map("n", "<leader>ff", function()
 	require("telescope.builtin").find_files({ hidden_files = true })

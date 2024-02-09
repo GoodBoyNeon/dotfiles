@@ -1,8 +1,6 @@
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
-local gfs = require("gears.filesystem")
-
 local theme = {}
 
 theme.font = "JetBrainsMono Nerd Font 12"
