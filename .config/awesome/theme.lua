@@ -34,11 +34,12 @@ local catppuccin = {
 	crust = "#11111b",
 }
 
-theme.useless_gap = dpi(5)
-theme.border_width = dpi(3)
+theme.useless_gap = dpi(4)
+theme.border_width = dpi(2)
 theme.border_color_normal = catppuccin.base
 theme.border_color_active = catppuccin.blue
 theme.border_color_marked = catppuccin.red
+theme.bg_normal = catppuccin.surface0
 
 theme.gap_single_client = true
 

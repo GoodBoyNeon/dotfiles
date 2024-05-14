@@ -66,6 +66,14 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+local clangdCapabilities = require("cmp_nvim_lsp").default_capabilities()
+clangdCapabilities.offsetEncoding = { "utf-16" }
+
+lspconfig["clangd"].setup({
+	on_attach = on_attach,
+	capabilities = clangdCapabilities,
+})
+
 lspconfig["lua_ls"].setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -189,6 +197,16 @@ lspconfig["pylsp"].setup({
 })
 
 lspconfig["jdtls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["dockerls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig["gopls"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })

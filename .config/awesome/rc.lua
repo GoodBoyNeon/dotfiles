@@ -1,52 +1,35 @@
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-pcall(require, "luarocks.loader")
--- local naughty = require("naughty")
 local gears = require("gears")
 local awful = require("awful")
-require("awful.autofocus")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
-local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
-require("awful.hotkeys_popup.keys")
+local naughty = require("naughty")
+require("awful.autofocus")
 require("collision")()
 
--- {{{ Error handling
-if awesome.startup_errors then
-	naughty.notify({
-		preset = naughty.config.presets.critical,
-		title = "Oops, there were errors during startup!",
-		text = awesome.startup_errors,
-	})
-end
+pcall(require, "luarocks.loader")
 
--- Handle runtime errors after startup
-do
-	local in_error = false
-	awesome.connect_signal("debug::error", function(err)
-		-- Make sure we don't go into an endless error loop
-		if in_error then
-			return
-		end
-		in_error = true
+-- >> Client borders and focus config << --
+require("config.client")
 
-		naughty.notify({
-			preset = naughty.config.presets.critical,
-			title = "Oops, an error happened!",
-			text = tostring(err),
-		})
-		in_error = false
-	end)
-end
--- }}}
+-- >> Error handling << --
+require("config.error-handling")
 
--- {{{ Variable definitions
-local terminal = "alacritty"
-local web_browser = "firefox"
-local editor = os.getenv("nvim") or "nano"
-local editor_cmd = terminal .. " -e " .. editor
-local modkey = "Mod4"
+-- >> Variable definitions << --
+user = {
+	name = "Neon",
+	image_path = os.getenv("HOME") .. "/.config/awesome/profile.png",
+	dnd_status = false,
+	fallback_password = "0000",
+	terminal = "alacritty ",
+	floating_terminal = "alacritty ",
+	browser = "firefox ",
+	file_manager = "alacritty --class file_manager -e ranger ",
+	editor = "alacritty --class editor -e nvim",
+	editor_cmd = "alacritty --class editor -e nvim",
+
+	web_search_cmd = 'xdg open "https://duckduckgo.com/?q="',
+}
+
+modkey = "Mod4"
 
 awful.layout.layouts = {
 	awful.layout.suit.tile,
@@ -77,37 +60,12 @@ end)
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-local myawesomemenu = {
-	{
-		"hotkeys",
-		function()
-			hotkeys_popup.show_help(nil, awful.screen.focused())
-		end,
-	},
-	{ "manual", terminal .. " -e man awesome" },
-	{ "edit config", editor_cmd .. " " .. awesome.conffile },
-	{ "restart", awesome.restart },
-	{
-		"quit",
-		function()
-			awesome.quit()
-		end,
-	},
-}
-
-local mymainmenu = awful.menu({
-	items = {
-		{ "awesome", myawesomemenu, beautiful.awesome_icon },
-		{ "open terminal", terminal },
-	},
-})
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
+
+-- >> Main Menu (Right Click) << --
+local mymainmenu = require("config.menu")
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -123,9 +81,6 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-
-	-- Keybinds preview
-	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 
 	-- Go back
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
@@ -163,22 +118,34 @@ globalkeys = gears.table.join(
 	-- Switch focus to urgent client
 	awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
 
+	-- Dismiss notifications
+	awful.key({ modkey }, ";", function()
+		awesome.emit_signal("elemental::dismiss")
+		naughty.destroy_all_notifications()
+	end, { description = "dismiss notification", group = "notifications" }),
+
 	------------------------------------------------------------
 
 	-- PROGRAMS --
 
 	-- terminal
 	awful.key({ modkey }, "Return", function()
-		awful.spawn(terminal)
+		awful.spawn(user.terminal)
 	end, { description = "open a terminal", group = "launcher" }),
+
+	-- floating_terminal
+	awful.key({ modkey, "Shift" }, "Return", function()
+		awful.spawn(user.floating_terminal, { floating = true })
+	end, { description = "spawn floating terminal", group = "launcher" }),
 
 	-- broswer
 	awful.key({ modkey }, "w", function()
-		awful.spawn(web_browser)
+		awful.spawn(user.browser)
 	end, { description = "Open a web broswer", group = "launcher" }),
 
 	-- Discord
 	awful.key({ modkey }, "d", function()
+		-- awful.spawn("./Applications/Discord/Discord --disable-gpu")
 		awful.spawn("discord --disable-gpu")
 		local screen = awful.screen.focused()
 		local tag = screen.tags[8]
@@ -189,7 +156,7 @@ globalkeys = gears.table.join(
 
 	-- Spotify
 	awful.key({ modkey }, "s", function()
-		awful.spawn("jumpapp spotify --disable-gpu")
+		awful.spawn("spotify --disable-gpu")
 		local screen = awful.screen.focused()
 		local tag = screen.tags[9]
 		if tag then
@@ -214,17 +181,12 @@ globalkeys = gears.table.join(
 		awful.spawn("rofi -show calc -modi calc -no-show-match -no-sort")
 	end, { description = "Rofi Calculator (rofi-calc)", group = "launcher" }),
 
-	-- program launcher (dmenu)
-	-- awful.key({ modkey }, "space", function()
-	-- 	awful.spawn("dmenu_run -fn 'JetBrainsMono Nerd Font'")
-	-- end, { description = "run dmenu", group = "launcher" }),
-
 	awful.key({ modkey }, "u", function()
 		awful.spawn("alacritty -e yay -Syu --noconfirm")
 	end, { description = "update", group = "launcher" }),
 
 	-- Take screenshot (selection)
-	awful.key({}, "Print", function()
+	awful.key({ modkey, "Shift" }, "s", function()
 		awful.spawn("flameshot gui")
 		-- awful.util.spawn("scrot -e 'mv $f ~/Media/images/screenshots/ 2>/dev/null'", false)
 		-- awful.util.spawn('notify-send "SCROT" "Screenshot created!"', false)
@@ -301,19 +263,7 @@ clientkeys = gears.table.join(
 	awful.key({ modkey }, "f", function(c)
 		c.maximized = not c.maximized
 		c:raise()
-	end, { description = "(un)maximize", group = "client" }),
-
-	-- (un)maximize window vertically
-	awful.key({ modkey }, "v", function(c)
-		c.maximized_vertical = not c.maximized_vertical
-		c:raise()
-	end, { description = "(un)maximize vertically", group = "client" }),
-
-	-- (un)maximize window horizontally
-	awful.key({ modkey, "Shift" }, "v", function(c)
-		c.maximized_horizontal = not c.maximized_horizontal
-		c:raise()
-	end, { description = "(un)maximize horizontally", group = "client" })
+	end, { description = "(un)maximize", group = "client" })
 )
 
 -- Bind all key numbers to tags.
@@ -456,7 +406,7 @@ awful.rules.rules = {
 			tag = "8", -- move discord to tag 8
 		},
 		callback = function(c)
-			-- c:jump_to() -- switch to the workspace where discord is and focus it
+			c:jump_to() -- switch to the workspace where discord is and focus it
 		end,
 	},
 
@@ -469,41 +419,32 @@ awful.rules.rules = {
 			tag = "9", -- move spotify to tag 9
 		},
 		callback = function(c)
-			-- c:jump_to() -- switch to the workspace where spotify is and focus it
+			c:jump_to() -- switch to the workspace where spotify is and focus it
 		end,
 	},
 }
 
 -- }}}
 
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-	c:emit_signal("request::activate", "mouse_enter", { raise = false })
-end)
-
-client.connect_signal("focus", function(c)
-	c.border_color = beautiful.border_focus
-end)
-client.connect_signal("unfocus", function(c)
-	c.border_color = beautiful.border_normal
-end)
--- }}}
-
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.connect_signal("manage", function(c)
-	-- Set the windows at the slave,
-	-- i.e. put it at the end of others instead of setting it master.
-	-- if not awesome.startup then awful.client.setslave(c) end
-
-	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-		-- Prevent clients from being unreachable after screen count changes.
-		awful.placement.no_offscreen(c)
-	end
-end)
+-- client.connect_signal("manage", function(c)
+-- 	-- Set the windows at the slave,
+-- 	-- i.e. put it at the end of others instead of setting it master.
+-- 	-- if not awesome.startup then awful.client.setslave(c) end
+--
+-- 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
+-- 		-- Prevent clients from being unreachable after screen count changes.
+-- 		awful.placement.no_offscreen(c)
+-- 	end
+-- end)
 
 -- Launch theme
 beautiful.init(awful.util.getdir("config") .. "theme.lua")
 
 -- AUTOSTART --
 os.execute("sh /home/neon/.config/awesome/autostart.sh")
+awful.spawn.with_shell("picom --daemon")
+
+-- -- >> Notifications << --
+-- require("deco.notifications")

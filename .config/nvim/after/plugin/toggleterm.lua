@@ -1,5 +1,5 @@
 require("toggleterm").setup({
-	open_mapping = "<space>n",
+	open_mapping = "<space>t",
 	insert_mappings = false,
 	border = "curved",
 	hide_numbers = true,

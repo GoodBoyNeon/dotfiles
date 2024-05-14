@@ -1,15 +1,5 @@
-local status_ok, gitsigns = pcall(require, "gitsigns")
-
-if not status_ok then
-	return
-end
-
-gitsigns.setup({
-	signs = {
-		add = { text = "+" },
-		change = { text = "|" },
-		delete = { text = "-" },
-		untracked = { text = "┆" },
-	},
-	current_line_blame = true,
-})
+require("gitsigns").setup(
+  {
+    current_line_blame = true,
+  }
+)
