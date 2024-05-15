@@ -2,7 +2,7 @@
 
 My configuration files for Arch Linux. Feel free to use the config *at your own risk*
 
-![Rice Screenshot](./images/rice.png)
+![Rice Screenshot](./images/ricev2.png)
 
 ## ⚙ Configurations
 
