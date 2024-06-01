@@ -35,7 +35,7 @@ local catppuccin = {
 }
 
 theme.useless_gap = dpi(4)
-theme.border_width = dpi(0)
+theme.border_width = dpi(1)
 theme.border_color_normal = catppuccin.base
 theme.border_color_active = catppuccin.blue
 theme.border_color_marked = catppuccin.red

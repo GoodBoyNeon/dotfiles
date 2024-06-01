@@ -1,7 +1,9 @@
 require("conform").setup({
   formatters_by_fit = {
-    javascript = { "prettier" },
-    typescript = { "prettier" },
+    -- javascript = { "prettier" },
+    -- typescript = { "prettier" },
+    javascript = { { "prettierd", "prettier" } },
+    typescript = { { "prettierd", "prettier" } },
     javascriptreact = { "prettier" },
     typescriptreact = { "prettier" },
     css = { "prettier" },

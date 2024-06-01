@@ -7,7 +7,7 @@ set fish_greeting
 fish_vi_key_bindings
 
 # Aliases
-alias ls "exa -la --icons --color always"
+alias ls "exa -l --icons --git -a"
 alias lt "exa --tree --level=2 --long --icons --git"
 alias logout "pkill -u neon"
 alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME/'
@@ -50,5 +50,6 @@ set --export DENO_INSTALL "$HOME/.deno"
 set --export PATH $DENO_INSTALL/bin $PATH
 
 fish_add_path /home/neon/.spicetify
-eval $(fzf_key_bindings)
+thefuck --alias | source
+# eval $(fzf_key_bindings)
 zoxide init fish | source

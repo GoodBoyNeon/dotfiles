@@ -1,3 +1,4 @@
-require("user.base")
-require("user.setup-plugins")
 require("user.maps")
+require("user.lazy")
+require("user.misc")
+require("user.opts")

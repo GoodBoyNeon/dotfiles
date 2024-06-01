@@ -12,13 +12,13 @@ end
 
 mason.setup({
   ensure_installed = {
-    "eslint-lsp",
     "lua-language-server",
     "html",
     "cssls",
     "tailwindcss",
     "typescript-language-server",
     "prettier",
+    "rust-analyzer"
   },
 })
 

@@ -5,13 +5,14 @@ if not status_ok then
 end
 
 trouble.setup({
+  icons = true,
   signs = {
     -- icons / text used for a diagnostic
-    -- error = "",
-    error = "E",
+    -- error = "E",
+    error = "󰅚",
     warning = "",
-    hint = "",
+    hint = "󰌶",
     information = "",
-    other = "﫠"
+    other = "󰗡"
   },
 })

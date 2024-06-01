@@ -1,31 +1,29 @@
 local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
+local opts = { noremap = false, silent = true }
 
 vim.g.mapleader = " "
 
-map({ "n", "v" }, "<Space>", "<Nop>", opts)
+map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+vim.keymap.set("x", "<leader>p", [["_dP]])
 
--- BUFFERLINE --
-map("n", "J", "<CMD>BufferLineCyclePrev<CR>", opts)
-map("n", "K", "<CMD>BufferLineCycleNext<CR>", opts)
-map("n", "X", "<CMD>Bdelete<CR>", opts)
+-- BUFFERS --
+map("n", "J", ":bprev<cr>", opts)
+map("n", "K", ":bnext<cr>", opts)
+map("n", "X", ":bdelete<cr>", opts)
 
 map("n", "te", "<CMD>tabedit<CR>", opts) -- new tab
 map("n", "<Tab>", "<CMD>tabnext<CR>", opts)
 
 -- NORMAL MODE --
-map("n", ";", ":", opts)
+map("n", ";", ":")
 
-map("n", "x", '"_x')          -- Delete char without yanking
-map("n", "dw", "vb_d")        -- Delete word backwards
-map("n", "<C-a>", "gg<S-v>G") -- Select all
+map("n", "x", '"_x')     -- Delete char without yanking
+map("n", "dw", "vbd")    -- Delete word backwards
 
-map("n", "=", "<C-a>")
-map("n", "-", "<C-x>")
+map("n", "B", "^", opts) -- go to start
+map("n", "E", "$", opts) -- go to end
 
-map("n", "dw", 'vb"_d')
-
-map("n", "<leader>hh", "<CMD>nohl<CR>")
+map("n", "<leader>hl", "<CMD>nohl<CR>")
 
 -- window
 map("n", "ss", "<cmd>split<cr><C-w>w", opts)
@@ -62,6 +60,18 @@ end)
 map("n", "]t", function()
   require("todo-comments").jump_next()
 end)
+
+-- trouble
+map("n", "<leader>xx", function() require("trouble").toggle() end)
+map("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
+map("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end)
+map("n", "<leader>xq", function() require("trouble").toggle("quickfix") end)
+map("n", "<leader>xl", function() require("trouble").toggle("loclist") end)
+map("n", "gR", function() require("trouble").toggle("lsp_references") end)
+
+-- neo-tree
+map("n", "<leader>ee", "<cmd>Neotree toggle float<cr>")
+map("n", "<leader>es", "<cmd>Neotree toggle right<cr>")
 
 -- INSERT MODE --
 

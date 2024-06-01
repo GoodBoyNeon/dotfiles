@@ -60,6 +60,16 @@ lazy.setup({
     end,
   },
   "windwp/nvim-ts-autotag",
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
+    }
+  },
 
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -166,10 +176,10 @@ lazy.setup({
     event = { "BufReadPre", "BufNewFile" },
   }, -- formatting
 
-  {
-    "mfussenegger/nvim-lint",
-    event = { "BufReadPre", "BufNewFile" },
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   -- event = { "BufReadPre", "BufNewFile" },
+  -- },
 
   -- SchemaStore (JSON and YAML)
   "b0o/schemastore.nvim",
@@ -195,7 +205,11 @@ lazy.setup({
 
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "folke/todo-comments.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "folke/todo-comments.nvim",
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
+    },
   },
 
   -- Colorizer: Preview color and hex codes
@@ -282,12 +296,11 @@ lazy.setup({
       })
     end,
   },
-}, {
-  checker = {
-    enabled = true,
-    notify = false,
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    lazy = false,   -- This plugin is already lazy
   },
-  change_detection = {
-    notify = false,
-  },
+
+  "eandrju/cellular-automaton.nvim",
 })
